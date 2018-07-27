@@ -25,18 +25,18 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register")
 def register():
-    """Registrate"""
+    return render_template("register.html")
 
-    # Get form information.
+@app.route("/success.html", methods=["POST"])
+def success(): # Get form information.
     user_name = request.form.get("user_name")
     user_password = request.form.get("user_password")
-
     db.execute("INSERT INTO users (user_name, user_password) VALUES (:user_name, :user_password)",
             {"user_name": user_name, "user_password": user_password})
     db.commit()
